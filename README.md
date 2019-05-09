@@ -1,3 +1,8 @@
+## Welcome to the Weirdness App
+This is a GIF generator that scales your weirdness level!
+Please clone the repo and npm install using Node.js to download the modules necessary for this web app.
+Thank you and have a wonderful time!
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
