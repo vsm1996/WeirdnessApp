@@ -3,49 +3,29 @@ import PropTypes from "prop-types";
 
 class Gif extends Component {
   state = {
-    gif: {},
-    liked: false
+    gif: {}
   };
 
-  static getDerivedStateFromProps = (props, state) => {
-    const { gifObj } = props;
-    //console.log("gifOBJ,  ", gifObj);
-    return { gif: gifObj };
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    const { liked } = prevState;
-    if (liked) {
-      this.setState({ liked: false });
-    }
+  static getDerivedStateFromProps(props, state) {
+    const { gifProp } = props;
+    return {
+      gif: gifProp
+    };
   }
 
-  onClick = e => {
-    const { gif } = this.state;
-    this.props.likeClicked(e, gif);
-    this.setState({ liked: true });
-  };
-
   render() {
-    const { gif, liked } = this.state;
+    const { gif } = this.state;
     return (
-      <div className="p1 gif-section">
-        <h3 className="bold">Your Result</h3>
-        <section className="tc">
-          <p>{gif.title}</p>
-          <p> {gif.weirdness} </p>
-          <img className="" src={gif.images.downsized.url} alt={gif.title} />
-        </section>
-        <button disabled={liked} onClick={e => this.onClick(e)} className="">
-          <i className="far fa-thumbs-up" />
-        </button>
+      <div>
+        <p>{gif.title}</p>
+        <img className="" src={gif.images.fixed_width.url} alt={gif.title} />
       </div>
     );
   }
 }
 
 Gif.propTypes = {
-  gifObj: PropTypes.object.isRequired
+  gifProp: PropTypes.object.isRequired
 };
 
 export default Gif;

@@ -3,18 +3,38 @@ import React, { Component } from "react";
 class Calculator extends Component {
   state = {
     newSearch: "",
-    weirdness: 0
+    weirdness: 0,
+    length: 0
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.length !== prevState.length) {
+      return { length: nextProps.length };
+    } else {
+      return { length: prevState.length };
+    }
+  }
 
   onChange = e => {
     this.setState({ newSearch: e.target.value });
   };
+
   onChangeWeirdness = e => {
-    this.setState({ weirdness: e.target.value });
+    let number = e.target.value;
+    let weirdnessInt = parseInt(number, 10);
+    this.setState({ weirdness: weirdnessInt });
+  };
+
+  isDisabled = () => {
+    if (this.state.length === 5) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   render() {
-    const { newSearch, weirdness } = this.state;
+    const { newSearch, weirdness, length } = this.state;
     return (
       <div className="p1">
         <p>
@@ -27,15 +47,14 @@ class Calculator extends Component {
           When you find a GIF you like, press the Like button. Once you like 5
           GIFS we'll show you how weird you are.
         </p>
-        <p>
-          <em>Weirdness</em>: {weirdness}
-        </p>
         <form
           onSubmit={e => {
             this.props.handleSubmit(e, newSearch, weirdness);
           }}
         >
-          <label htmlFor="gif-search" />
+          <label className="block text-muted" htmlFor="gif-search">
+            Search term
+          </label>
           <input
             id="gif-search"
             onChange={this.onChange}
@@ -53,8 +72,22 @@ class Calculator extends Component {
               className="slider"
               id="myRange"
             />
+
+            <p>
+              <em>Weirdness</em>: {weirdness}
+            </p>
           </div>
-          <button type="submit"> SEARCH </button>
+          <button
+            className="btn btn-primary"
+            disabled={this.isDisabled()}
+            type="submit"
+          >
+            {" "}
+            SEARCH{" "}
+          </button>
+          {length === 5 ? (
+            <h5 className="red"> You have liked 5 gifs! </h5>
+          ) : null}
         </form>
       </div>
     );

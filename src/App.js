@@ -7,10 +7,13 @@ import "./App.css";
 
 import Header from "./components/Header";
 import Calculator from "./components/Calculator";
-import Gif from "./components/Gif";
+import Result from "./components/Result";
 import LikedGifs from "./components/LikedGifs";
 import Outcome from "./components/Outcome";
 
+const initialState = {
+  gifs: []
+};
 class App extends Component {
   state = {
     gifs: []
@@ -35,8 +38,8 @@ class App extends Component {
       });
   };
 
-  resetGif = () => {
-    this.setState(this.initialState);
+  resetState = () => {
+    this.setState(initialState);
   };
 
   likeClicked = (e, gif) => {
@@ -54,12 +57,15 @@ class App extends Component {
             <div className="App">
               <Header />
               <div className="row">
-                <div className="col-sm-7 box">
+                <div className="col-sm-6 box">
                   <Route
                     exact
                     path="/"
                     render={() => (
-                      <Calculator handleSubmit={this.handleFetch} />
+                      <Calculator
+                        length={gifs.length}
+                        handleSubmit={this.handleFetch}
+                      />
                     )}
                   />
                   {newGif ? (
@@ -67,12 +73,15 @@ class App extends Component {
                       exact
                       path="/"
                       render={() => (
-                        <Gif gifObj={newGif} likeClicked={this.likeClicked} />
+                        <Result
+                          gifObj={newGif}
+                          likeClicked={this.likeClicked}
+                        />
                       )}
                     />
                   ) : null}
                 </div>
-                <div className="col-sm box">
+                <div className="col-sm-6 box">
                   <Route
                     exact
                     path="/"
@@ -83,7 +92,13 @@ class App extends Component {
                 </div>
               </div>
 
-              <Route exact path="/outcome" render={() => <Outcome />} />
+              <Route
+                exact
+                path="/outcome"
+                render={() => (
+                  <Outcome resetState={this.resetState} gifs={gifs} />
+                )}
+              />
             </div>
           </Fragment>
         </Switch>

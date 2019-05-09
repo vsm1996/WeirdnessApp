@@ -1,24 +1,50 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1b50bb;
   min-height: 2vh;
+  padding: 1rem;
+  text-align: left;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.row {
+  margin: 0;
+}
 
 .gif-section {
-  background: rgba(143, 65, 206, 0.5)
+  background: rgba(180, 217, 252, 0.548);
+  border: 0.25px solid black;
+}
+
+.gif-list-elem {
+  display: inline-block;
+  margin: 8px;
+}
+
+.gif-list-liked {
+  display: inline-block;
+  margin: 1rem;
+  padding: 1rem;
 }
 
 .box {
-  border: 1px solid black;
+  border: 0.25px solid black;
   text-align: left;
   padding: 0;
 }
@@ -26,11 +52,49 @@
 .p1 {
   padding: 1rem 2rem;
 }
+.liked-section {
+  padding: 1rem 2rem;
+  border: 1px solid black;
+  height: 100%;
+}
+
+.block {
+  display: block;
+}
+
+.m1 {
+  margin: 10px;
+}
+
+.mt1 {
+  margin-top: 10px;
+}
 
 .tc {
-  text-align: center
+  text-align: center;
+}
+
+.tl {
+  text-align: left;
 }
 
 .bold {
   font-weight: bold;
+}
+
+.white {
+  color: white;
+}
+
+.red {
+  color: red;
+}
+
+.icon {
+  width: 25px;
+  height: 17px;
+  text-align: center;
+  border-radius: 10px;
+  color: white;
+  background-color: black;
 }
