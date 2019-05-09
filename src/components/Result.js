@@ -31,6 +31,9 @@ class Result extends Component {
     return (
       <div className="p1 gif-section">
         <h3 className="bold">Your Result</h3>
+        {liked === true ? (
+          <h5 className="red">Please like another GIF!</h5>
+        ) : null}
         <section className="tc">
           <p>{gif.title}</p>
           <img className="" src={gif.images.downsized.url} alt={gif.title} />

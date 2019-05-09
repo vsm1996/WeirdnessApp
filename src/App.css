@@ -28,13 +28,12 @@ body {
 }
 
 .gif-section {
-  background: rgba(180, 217, 252, 0.548);
-  border: 0.25px solid black;
+  background: rgba(227, 233, 246, 0.548);
 }
 
 .gif-list-elem {
   display: inline-block;
-  margin: 8px;
+  margin: 7px;
 }
 
 .gif-list-liked {
@@ -44,9 +43,13 @@ body {
 }
 
 .box {
-  border: 0.25px solid black;
   text-align: left;
   padding: 0;
+}
+
+.flex-jc {
+  display: flex;
+  justify-content: center;
 }
 
 .p1 {
@@ -54,7 +57,7 @@ body {
 }
 .liked-section {
   padding: 1rem 2rem;
-  border: 1px solid black;
+  background: rgba(198, 211, 238, 0.705);
   height: 100%;
 }
 

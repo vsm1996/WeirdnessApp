@@ -24,7 +24,7 @@ class Outcome extends Component {
         // console.log(`total for ${index}: `, total);
       });
       let avg = total / gifs.length;
-      return avg;
+      return Math.round(avg);
     } else {
       return total;
     }
@@ -43,11 +43,11 @@ class Outcome extends Component {
     return (
       <div className="container">
         <h3 className="p1">
-          You scored an {this.calculateWeirdness()} out of 10 on the weirdness
+          You scored {this.calculateWeirdness()} out of 10 on the weirdness
           scale!
         </h3>
         <p className="bold tl">The GIFS you liked</p>
-        {gifItem}
+        <div className="row flex-jc">{gifItem}</div>
         <Link to="/">
           {" "}
           <button className="btn btn-primary" onClick={this.props.resetState}>

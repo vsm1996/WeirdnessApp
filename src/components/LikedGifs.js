@@ -43,7 +43,7 @@ class LikedGifs extends Component {
     });
 
     return (
-      <div className="p1 gif-section liked-section">
+      <div className="p1 liked-section">
         <h6 className="bold">YOUR LIKED GIFS</h6>
         <section className="tc">{gifItem}</section>
         <div className="tc">
