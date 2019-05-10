@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+import { addGif } from "../actions/gifActions";
 
 class Result extends Component {
   state = {
@@ -20,18 +23,27 @@ class Result extends Component {
     }
   }
 
+  likeClicked = (e, gif) => {
+    e.preventDefault();
+    //console.log("clicked: ", liked, gif);
+    //this.setState({ gifs: this.state.gifs.concat(gif) });
+    //pass to gifs in store (where it will be concateded)?
+    this.props.addGif(gif);
+  };
+
   onClick = e => {
     const { gif } = this.state;
-    this.props.likeClicked(e, gif);
+    this.likeClicked(e, gif);
     this.setState({ liked: true });
   };
 
   render() {
     const { gif, liked } = this.state;
+    const { length } = this.props;
     return (
       <div className="p1 gif-section">
         <h3 className="bold">Your Result</h3>
-        {liked === true ? (
+        {liked === true && length < 5 ? (
           <h5 className="red">Please like another GIF!</h5>
         ) : null}
         <section className="tc">
@@ -53,7 +65,12 @@ class Result extends Component {
 }
 
 Result.propTypes = {
-  gifObj: PropTypes.object.isRequired
+  gifObj: PropTypes.object.isRequired,
+  length: PropTypes.any.isRequired,
+  addGif: PropTypes.func.isRequired
 };
 
-export default Result;
+export default connect(
+  null,
+  { addGif }
+)(Result);

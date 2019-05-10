@@ -1,6 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import Gif from "./Gif";
 import { Link } from "react-router-dom";
+
+import { removeGif } from "../actions/gifActions";
 
 class LikedGifs extends Component {
   state = {
@@ -18,8 +22,10 @@ class LikedGifs extends Component {
   unlikeClick = (e, index) => {
     e.preventDefault();
     const { gifs, length } = this.state;
-    gifs.splice(index, 1);
-    this.setState({ gifs: gifs, length: length - 1 });
+    //send index to store, where it will be spliced
+    this.props.removeGif(index);
+    //gifs.splice(index, 1);
+    //this.setState({ gifs: gifs, length: length - 1 });
   };
 
   isDisabled = () => {
@@ -68,4 +74,11 @@ class LikedGifs extends Component {
   }
 }
 
-export default LikedGifs;
+LikedGifs.propTypes = {
+  removeGif: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { removeGif }
+)(LikedGifs);

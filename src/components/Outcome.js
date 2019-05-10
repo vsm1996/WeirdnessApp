@@ -1,21 +1,18 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
 import Gif from "./Gif";
+import { Link } from "react-router-dom";
+
+import { resetState, getGifs } from "../actions/gifActions";
 
 class Outcome extends Component {
-  state = {
-    gifs: []
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    const { gifs } = props;
-    return { gifs: gifs };
+  componentDidMount() {
+    this.props.getGifs();
   }
 
   calculateWeirdness = () => {
-    const { gifs } = this.state;
+    const { gifs } = this.props.gifs;
     let total = 0;
     if (gifs.length === 5) {
       gifs.forEach((gif, index) => {
@@ -30,8 +27,13 @@ class Outcome extends Component {
     }
   };
 
+  onClick = e => {
+    this.props.resetState();
+  };
+
   render() {
-    const gifItem = this.state.gifs.map((gif, index) => {
+    const { gifs } = this.props.gifs;
+    const gifItem = gifs.map((gif, index) => {
       return (
         <span key={index} className="gif-list-elem">
           {" "}
@@ -50,7 +52,7 @@ class Outcome extends Component {
         <div className="row flex-jc">{gifItem}</div>
         <Link to="/">
           {" "}
-          <button className="btn btn-primary" onClick={this.props.resetState}>
+          <button className="btn btn-primary" onClick={this.onClick}>
             START OVER
           </button>{" "}
         </Link>
@@ -60,7 +62,16 @@ class Outcome extends Component {
 }
 
 Outcome.propTypes = {
-  gifs: PropTypes.array.isRequired
+  gifs: PropTypes.object.isRequired,
+  getGifs: PropTypes.func.isRequired,
+  resetState: PropTypes.func.isRequired
 };
 
-export default Outcome;
+const mapStateToProps = state => ({
+  gifs: state.gifs
+});
+
+export default connect(
+  mapStateToProps,
+  { resetState, getGifs }
+)(Outcome);

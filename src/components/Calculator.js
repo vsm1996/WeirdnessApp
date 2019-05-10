@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 class Calculator extends Component {
   state = {
     newSearch: "",
@@ -33,6 +32,15 @@ class Calculator extends Component {
     }
   };
 
+  onSubmit = (e, newSearch, weirdness) => {
+    e.preventDefault();
+    if (newSearch === "") {
+      this.setState({ error: "Cannot be blank" });
+    } else {
+      this.props.handleSubmit(newSearch, weirdness);
+    }
+  };
+
   render() {
     const { newSearch, weirdness, length } = this.state;
     return (
@@ -49,12 +57,13 @@ class Calculator extends Component {
         </p>
         <form
           onSubmit={e => {
-            this.props.handleSubmit(e, newSearch, weirdness);
+            this.onSubmit(e, newSearch, weirdness);
           }}
         >
           <label className="block text-muted" htmlFor="gif-search">
             Search term
           </label>
+          {this.state.error && <p className="red">{this.state.error}</p>}
           <input
             id="gif-search"
             onChange={this.onChange}
@@ -85,8 +94,8 @@ class Calculator extends Component {
             {" "}
             SEARCH{" "}
           </button>
-          {length === 5 ? (
-            <h5 className="red"> You have liked 5 gifs! </h5>
+          {this.isDisabled() ? (
+            <h5 className="red mt1"> You have liked 5 gifs! </h5>
           ) : null}
         </form>
       </div>

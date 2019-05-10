@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
-
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Key from "./utils/Key";
 import "./App.css";
 
@@ -11,23 +11,21 @@ import Result from "./components/Result";
 import LikedGifs from "./components/LikedGifs";
 import Outcome from "./components/Outcome";
 
-const initialState = {
-  gifs: []
-};
-class App extends Component {
-  state = {
-    gifs: []
-  };
+import { getGifs } from "./actions/gifActions";
 
-  handleFetch = (event, search, weirdness) => {
-    event.preventDefault();
+class App extends Component {
+  state = {};
+
+  componentDidMount() {
+    this.props.getGifs();
+  }
+
+  handleFetch = (search, weirdness) => {
     const KEY = Key;
     const API_URL = `http://api.giphy.com/v1/gifs/translate?s=${search}&api_key=${KEY}&weirdness=${weirdness}`;
-    //console.log("URL: ", API_URL);
     fetch(API_URL)
       .then(res => res.json())
       .then(gif => {
-        //console.log("DATA: ", gif.data);
         gif.data.weirdness = weirdness;
         this.setState({
           newGif: gif.data
@@ -35,21 +33,16 @@ class App extends Component {
       })
       .catch(err => {
         console.log("error: ", err);
+        this.setState({
+          newGif: {}
+        });
       });
   };
 
-  resetState = () => {
-    this.setState(initialState);
-  };
-
-  likeClicked = (e, gif) => {
-    e.preventDefault();
-    //console.log("clicked: ", liked, gif);
-    this.setState({ gifs: this.state.gifs.concat(gif) });
-  };
-
   render() {
-    const { newGif, gifs } = this.state;
+    const { newGif } = this.state;
+    const { gifs } = this.props.gifs;
+
     return (
       <Router>
         <Switch>
@@ -73,10 +66,7 @@ class App extends Component {
                       exact
                       path="/"
                       render={() => (
-                        <Result
-                          gifObj={newGif}
-                          likeClicked={this.likeClicked}
-                        />
+                        <Result length={gifs.length} gifObj={newGif} />
                       )}
                     />
                   ) : null}
@@ -95,9 +85,7 @@ class App extends Component {
               <Route
                 exact
                 path="/outcome"
-                render={() => (
-                  <Outcome resetState={this.resetState} gifs={gifs} />
-                )}
+                render={() => <Outcome gifs={gifs} />}
               />
             </div>
           </Fragment>
@@ -107,4 +95,16 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  getGifs: PropTypes.func.isRequired,
+  gifs: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  gifs: state.gifs
+});
+
+export default connect(
+  mapStateToProps,
+  { getGifs }
+)(App);
