@@ -56,6 +56,7 @@ class Calculator extends Component {
           GIFS we'll show you how weird you are.
         </p>
         <form
+          className="mt2r"
           onSubmit={e => {
             this.onSubmit(e, newSearch, weirdness);
           }}
@@ -78,11 +79,11 @@ class Calculator extends Component {
               max="10"
               value={weirdness}
               onChange={this.onChangeWeirdness}
-              className="slider"
+              className="slider weirdness-bar"
               id="myRange"
             />
 
-            <p>
+            <p className="weirdness-text">
               <em>Weirdness</em>: {weirdness}
             </p>
           </div>
